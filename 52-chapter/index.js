@@ -1,13 +1,38 @@
-function bedFunction (a, a, b){
-  console.log(a)
-  return a + a + b;
+class NotFoundError extends Error {
+    constructor(message) {
+        super(message);
+        this.name = "NotFound Error";
+    }
 }
 
-console.log(bedFunction(10, 4, 2));
-
-function bedFunction2 (a, b, a, a){
-  console.log(a)
-  return a + b + a;
+function showMsg(fullname) {
+    if (fullname === "") {
+        // custom error class
+        const error = new NotFoundError("404 not found");
+        error.stack = "404 fullname not found";
+        throw error;
+    }
+    if (fullname === "mary") {
+        // throw "something went wrong"; // bad 
+        // throw new Error("something went wrong"); // good
+        const error = new Error("Invalid input");
+        error.name = "Validation Error";
+        error.stack = "invalid mary input";
+        throw error;
+    }
+    return fullname;
 }
 
-console.log(bedFunction2(10, 2, 4, 5));
+try {
+    console.log(showMsg(""));
+} catch (error) {
+    if (error instanceof NotFoundError) {
+        console.error(error.message);
+    } else {
+        console.error(error.name);
+        console.error(error.message);
+        console.error(error.stack);
+    }
+} finally {
+    console.log("cleanup resources")
+}

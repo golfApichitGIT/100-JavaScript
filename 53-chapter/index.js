@@ -1,13 +1,20 @@
-function bedFunction (a, a, b){
-  console.log(a)
-  return a + a + b;
+const fetchData = async (item) => {
+    return new Promise((resolve) => {
+        setTimeout(() => resolve(`fetched ${item}`), 1000)
+    })
 }
 
-console.log(bedFunction(10, 4, 2));
-
-function bedFunction2 (a, b, a, a){
-  console.log(a)
-  return a + b + a;
+const getUser = async (item) => {
+    try {
+        // return fetchData(item); // bad ไม่ใส่ await จะไม่เข้า catch และ finally อย่างถูกต้อง
+        return await fetchData(item); // good
+    } catch (error) {
+        console.error(error.message);
+    } finally {
+        console.log('finally');
+    }
 }
 
-console.log(bedFunction2(10, 2, 4, 5));
+const users = await getUser(['a', 'b', 'c']);
+
+console.log(users);
